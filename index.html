@@ -52,15 +52,21 @@
     <script>
         let votes = { option1: 0, option2: 0, option3: 0, option4: 0 };
 
-        function submitVote() {
-            let selectedOption = document.querySelector('input[name="vote"]:checked');
-            if (selectedOption) {
-                votes[selectedOption.value]++;
-                displayResults();
-            } else {
-                alert("Ju lutemi, zgjidhni një opsion për të votuar!");
-            }
-        }
+function submitVote() {
+    let selectedOption = document.querySelector('input[name="vote"]:checked');
+    if (selectedOption) {
+        fetch("https://script.google.com/macros/s/AKfycbwqo5DroackMKMLinMBiYw3HSBzo2f_M2b0crWzt-S1qxMTFH2UlqPf-7hgXFnbvUD1IQ/exec", {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ vote: selectedOption.value })
+        }).then(() => {
+            alert("Vota u regjistrua!");
+        }).catch(error => console.error(error));
+    } else {
+        alert("Ju lutemi, zgjidhni një opsion për të votuar!");
+    }
+}
 
         function displayResults() {
             let resultsDiv = document.getElementById("results");
